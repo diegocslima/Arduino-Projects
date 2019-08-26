@@ -1,7 +1,5 @@
 int dist = 0;
 
-int pos = 0;
-
 int i = 0;
 
 int j = 0;
@@ -37,7 +35,10 @@ void loop()
     digitalWrite(4, HIGH);
     digitalWrite(5, HIGH);
   } else {
-    digitalWrite(4, HIGH);
     digitalWrite(5, LOW);
+    digitalWrite(4, HIGH);
+    delayMicroseconds(2000);
+    digitalWrite(4, LOW);
+    delayMicroseconds(2000);
   }
  }
