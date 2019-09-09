@@ -1,8 +1,12 @@
+#include <Servo.h>
+
 int dist = 0;
 
-int i = 0;
+int pos = 0;
 
-int j = 0;
+int diste = 0;
+
+int disd = 0;
 
 long readUltrasonicDistance(int triggerPin, int echoPin)
 {
@@ -18,9 +22,13 @@ long readUltrasonicDistance(int triggerPin, int echoPin)
   return pulseIn(echoPin, HIGH);
 }
 
+Servo servo_9;
+
 void setup()
 {
   Serial.begin(9600);
+
+  servo_9.attach(9);
 
   pinMode(4, OUTPUT);
   pinMode(5, OUTPUT);
@@ -28,16 +36,29 @@ void setup()
 
 void loop()
 {
-  dist = 0.01723 * readUltrasonicDistance(11, 12);
+  dist = 0.01723 * readUltrasonicDistance(12, 12);
   Serial.println(dist);
-  if (dist > 20) {
+  servo_9.write(90);
+  delay(600); // Wait for 600 millisecond(s)
+  if (dist > 50) {
     digitalWrite(4, HIGH);
     digitalWrite(5, HIGH);
   } else {
-    digitalWrite(5, LOW);
     digitalWrite(4, LOW);
+    digitalWrite(5, LOW);
     delay(1000); // Wait for 1000 millisecond(s)
+    servo_9.write(180);
+    delay(600); // Wait for 600 millisecond(s)
+    diste = 0.01723 * readUltrasonicDistance(12, 12);
+    Serial.println(diste);
+    servo_9.write(0);
+    delay(1200); // Wait for 1200 millisecond(s)
+    disd = 0.01723 * readUltrasonicDistance(12, 12);
+    Serial.println(disd);
+    servo_9.write(90);
+    delay(600); // Wait for 600 millisecond(s)
     digitalWrite(4, HIGH);
-    delay(500); // Wait for 1000 millisecond(s)
+    delay(500); // Wait for 500 millisecond(s)
+    digitalWrite(4, LOW);
   }
 }
